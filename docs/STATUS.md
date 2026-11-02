@@ -293,8 +293,8 @@ pairing links, Linux and Windows installers and the website. M2-M6 evidence is
 loopback, Xvfb and emulator testing; physical Wi-Fi, Windows and phone acceptance is
 unverified. The browser viewer (M7) is not started (issue #8). Protocol v3 and core hygiene (P2,
 #51) and the mDNS discovery crate (P1 part 1, #52) are merged.
-Next-batch order, acceptance tests and assignments are in issue #50; the claimed-task
-table is in ROADMAP.md.
+Next-batch order and acceptance tests are in issue #50; the current work table is
+in ROADMAP.md.
 
 Not yet done: persistent device pairing and discovery UI (M8, in progress), Windows
 and X11 extended display (M9, spike not started), release signing and a stable
@@ -305,8 +305,8 @@ physical-device acceptance on Windows 11 and phones, and the Simplicity track (S
 in #50). Follow-ups (1) and (8) from #19 were addressed in P2 (#51),
 and item (7) partly (Resume handling lives in `host/src/session.rs`; P2 added
 documentation and a test hook). Earlier STATUS entries record the remaining
-items (e.g. items 3 and 4). Supply-chain checks (`cargo-deny`, advisory for
-bincode 1.3) are planned in P3 and P2.
+items (e.g. items 3 and 4). Supply-chain checks (`cargo-deny`, with a documented
+advisory exemption for bincode 1.x) are merged in P3 (#56).
 
 Wireless operation over Wi-Fi/LAN remains a cross-cutting requirement for every
 milestone.
@@ -393,33 +393,6 @@ and Rust 1.85 all-target checks passed sequentially. Four existing live desktop/
 portal tests remain ignored. Physical-device, Windows runtime and discovery
 integration acceptance remain unverified; discovery wiring is not implemented.
 This change is not released.
-## 25 October 2026 — current snapshot
-
-As of 25 October 2026, PRs #35-#49 and #55 are merged on `main`. Merged work covers the protocol and
-transport core (M1), Linux and Windows desktop host/viewer (M2-M4), Android capture and
-Android viewer (M5-M6) at alpha level, plus Wayland sharing, remote control, secure
-pairing links, Linux and Windows installers and the website. M2-M6 evidence is
-loopback, Xvfb and emulator testing; physical Wi-Fi, Windows and phone acceptance is
-unverified. The browser viewer (M7) is not started (issue #8). Protocol v3 and core hygiene (P2,
-#51) and the mDNS discovery crate (P1 part 1, #52) are merged.
-Next-batch order, acceptance tests and assignments are in issue #50; the claimed-task
-table is in ROADMAP.md.
-
-Not yet done: persistent device pairing and discovery UI (M8, in progress), Windows
-and X11 extended display (M9, spike not started), release signing and a stable
-release (M10; unsigned test builds are on the
-[Releases page](https://github.com/reduckyLang/Trinix/releases), tested on emulators,
-Xvfb and one KDE session only; the `.deb` description text is outdated),
-physical-device acceptance on Windows 11 and phones, and the Simplicity track (S1-S8
-in #50). Follow-ups (1) and (8) from #19 were addressed in P2 (#51),
-and item (7) partly (Resume handling lives in `host/src/session.rs`; P2 added
-documentation and a test hook). Earlier STATUS entries record the remaining
-items (e.g. items 3 and 4). Supply-chain checks (`cargo-deny`, advisory for
-bincode 1.3) are planned in P3 and P2.
-
-Wireless operation over Wi-Fi/LAN remains a cross-cutting requirement for every
-milestone.
-
 ## 2026-10-25 — M8 part 1: discovery library
 
 Added standalone opt-in mDNS advertising and bounded on-demand browsing, strict
