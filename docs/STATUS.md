@@ -291,8 +291,8 @@ transport core (M1), Linux and Windows desktop host/viewer (M2-M4), Android capt
 Android viewer (M5-M6) at alpha level, plus Wayland sharing, remote control, secure
 pairing links, Linux and Windows installers and the website. M2-M6 evidence is
 loopback, Xvfb and emulator testing; physical Wi-Fi, Windows and phone acceptance is
-unverified. The browser viewer (M7) is not started (issue #8). Open work: draft PR #51
-(P2, protocol v3 and core hygiene) and draft PR #52 (P1 part 1, mDNS discovery crate).
+unverified. The browser viewer (M7) is not started (issue #8). Protocol v3 and core hygiene (P2,
+#51) and the mDNS discovery crate (P1 part 1, #52) are merged.
 Next-batch order, acceptance tests and assignments are in issue #50; the claimed-task
 table is in ROADMAP.md.
 
@@ -302,11 +302,10 @@ release (M10; unsigned test builds are on the
 [Releases page](https://github.com/reduckyLang/Trinix/releases), tested on emulators,
 Xvfb and one KDE session only; the `.deb` description text is outdated),
 physical-device acceptance on Windows 11 and phones, and the Simplicity track (S1-S8
-in #50). Of the #19 reviewer follow-ups, items (1) and (8) are planned in P2 and item (7)
-is partly planned there (the Resume handling already exists in the host session in
-`host/src/session.rs`; P2 adds documentation and a test hook). The #19 checklist on
-GitHub has no items ticked yet, so treat the earlier STATUS entries (e.g. items 3
-and 4) as the record for the rest. Supply-chain checks (`cargo-deny`, advisory for
+in #50). Follow-ups (1) and (8) from #19 were addressed in P2 (#51),
+and item (7) partly (Resume handling lives in `host/src/session.rs`; P2 added
+documentation and a test hook). Earlier STATUS entries record the remaining
+items (e.g. items 3 and 4). Supply-chain checks (`cargo-deny`, advisory for
 bincode 1.3) are planned in P3 and P2.
 
 Wireless operation over Wi-Fi/LAN remains a cross-cutting requirement for every
@@ -401,8 +400,8 @@ transport core (M1), Linux and Windows desktop host/viewer (M2-M4), Android capt
 Android viewer (M5-M6) at alpha level, plus Wayland sharing, remote control, secure
 pairing links, Linux and Windows installers and the website. M2-M6 evidence is
 loopback, Xvfb and emulator testing; physical Wi-Fi, Windows and phone acceptance is
-unverified. The browser viewer (M7) is not started (issue #8). Open work: draft PR #51
-(P2, protocol v3 and core hygiene) and draft PR #52 (P1 part 1, mDNS discovery crate).
+unverified. The browser viewer (M7) is not started (issue #8). Protocol v3 and core hygiene (P2,
+#51) and the mDNS discovery crate (P1 part 1, #52) are merged.
 Next-batch order, acceptance tests and assignments are in issue #50; the claimed-task
 table is in ROADMAP.md.
 
@@ -412,11 +411,10 @@ release (M10; unsigned test builds are on the
 [Releases page](https://github.com/reduckyLang/Trinix/releases), tested on emulators,
 Xvfb and one KDE session only; the `.deb` description text is outdated),
 physical-device acceptance on Windows 11 and phones, and the Simplicity track (S1-S8
-in #50). Of the #19 reviewer follow-ups, items (1) and (8) are planned in P2 and item (7)
-is partly planned there (the Resume handling already exists in the host session in
-`host/src/session.rs`; P2 adds documentation and a test hook). The #19 checklist on
-GitHub has no items ticked yet, so treat the earlier STATUS entries (e.g. items 3
-and 4) as the record for the rest. Supply-chain checks (`cargo-deny`, advisory for
+in #50). Follow-ups (1) and (8) from #19 were addressed in P2 (#51),
+and item (7) partly (Resume handling lives in `host/src/session.rs`; P2 added
+documentation and a test hook). Earlier STATUS entries record the remaining
+items (e.g. items 3 and 4). Supply-chain checks (`cargo-deny`, advisory for
 bincode 1.3) are planned in P3 and P2.
 
 Wireless operation over Wi-Fi/LAN remains a cross-cutting requirement for every
