@@ -97,25 +97,45 @@ public final class MainActivity extends Activity implements SurfaceHolder.Callba
         LinearLayout layout = column(); layout.setFitsSystemWindows(true);
         layout.setPadding(dp(20), dp(18), dp(20), dp(12));
         layout.setBackgroundColor(Color.rgb(247, 248, 247));
-        layout.addView(text(getString(R.string.app_title), 26, Color.rgb(30, 39, 35)));
+        TextView title = text(getString(R.string.app_title), 22, Color.rgb(30, 39, 35));
+        title.setTypeface(android.graphics.Typeface.create("sans-serif-medium", android.graphics.Typeface.NORMAL));
+        layout.addView(title);
         LinearLayout navigation = new LinearLayout(this);
+        navigation.setPadding(dp(4), dp(4), dp(4), dp(4));
+        navigation.setBackground(rounded(Color.rgb(235, 241, 237)));
         Button viewTab = new Button(this); viewTab.setText(R.string.view_tab);
         Button shareTab = new Button(this); shareTab.setText(R.string.share_tab); shareTab.setId(SHARE_TAB_ID);
         styleTab(viewTab, true); styleTab(shareTab, false);
-        navigation.addView(viewTab, new LinearLayout.LayoutParams(0, dp(56), 1));
-        navigation.addView(shareTab, new LinearLayout.LayoutParams(0, dp(56), 1)); layout.addView(navigation);
+        LinearLayout.LayoutParams viewTabParams = new LinearLayout.LayoutParams(0, dp(44), 1);
+        viewTabParams.setMargins(dp(2), 0, dp(2), 0);
+        LinearLayout.LayoutParams shareTabParams = new LinearLayout.LayoutParams(0, dp(44), 1);
+        shareTabParams.setMargins(dp(2), 0, dp(2), 0);
+        navigation.addView(viewTab, viewTabParams);
+        navigation.addView(shareTab, shareTabParams);
+        LinearLayout.LayoutParams navParams = new LinearLayout.LayoutParams(-1, -2);
+        navParams.topMargin = dp(14);
+        navParams.bottomMargin = dp(8);
+        layout.addView(navigation, navParams);
         viewPage = column(); sharePage = column();
+        android.widget.ScrollView shareScroll = new android.widget.ScrollView(this);
+        shareScroll.setFillViewport(true);
+        shareScroll.addView(sharePage, new android.widget.FrameLayout.LayoutParams(-1, -2));
         layout.addView(viewPage, new LinearLayout.LayoutParams(-1, 0, 1));
-        layout.addView(sharePage, new LinearLayout.LayoutParams(-1, 0, 1)); sharePage.setVisibility(View.GONE);
-        viewTab.setOnClickListener(v -> { viewPage.setVisibility(View.VISIBLE); sharePage.setVisibility(View.GONE); styleTab(viewTab, true); styleTab(shareTab, false); });
-        shareTab.setOnClickListener(v -> { disconnect(getString(R.string.not_connected)); viewPage.setVisibility(View.GONE); sharePage.setVisibility(View.VISIBLE); styleTab(viewTab, false); styleTab(shareTab, true); });
+        layout.addView(shareScroll, new LinearLayout.LayoutParams(-1, 0, 1));
+        shareScroll.setVisibility(View.GONE);
+        viewTab.setOnClickListener(v -> { viewPage.setVisibility(View.VISIBLE); shareScroll.setVisibility(View.GONE); styleTab(viewTab, true); styleTab(shareTab, false); });
+        shareTab.setOnClickListener(v -> { disconnect(getString(R.string.not_connected)); viewPage.setVisibility(View.GONE); shareScroll.setVisibility(View.VISIBLE); styleTab(viewTab, false); styleTab(shareTab, true); });
         address = new EditText(this); address.setId(ADDRESS_ID); address.setSingleLine(true);
         address.setHint(R.string.link_paste_hint);
         address.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(512)});
         address.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO); address.setTextSize(16);
         address.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        address.setBackground(fieldBackground());
+        address.setPadding(dp(14), dp(12), dp(14), dp(12));
+        address.setHintTextColor(Color.rgb(83, 96, 88));
+        address.setTextColor(Color.rgb(30, 39, 35));
         getPreferences(MODE_PRIVATE).edit().remove("address").apply();
-        viewPage.addView(address, new LinearLayout.LayoutParams(-1, dp(56)));
+        viewPage.addView(address, gapTop(8, dp(52)));
         if (getResources().getBoolean(R.bool.legacy_toggle)) {
             int legacyLabel = getResources().getIdentifier("adv_legacy_toggle", "string", getPackageName());
             if (legacyLabel == 0) throw new IllegalStateException("Missing development label");
@@ -126,10 +146,10 @@ public final class MainActivity extends Activity implements SurfaceHolder.Callba
         LinearLayout buttons = new LinearLayout(this);
         connect = new Button(this); connect.setId(CONNECT_ID); connect.setText(R.string.connect); connect.setEnabled(false); styleButton(connect, true); connect.setOnClickListener(v -> { if (handle != 0) disconnect(getString(R.string.not_connected)); else startViewing(); });
         buttons.addView(connect, new LinearLayout.LayoutParams(0, -2, 1));
-        viewPage.addView(buttons);
+        viewPage.addView(buttons, gapTop(10));
         LinearLayout controlBar = new LinearLayout(this);
         viewControl = new CheckBox(this); viewControl.setId(CONTROL_ID); viewControl.setText(R.string.allow_computer_control); viewControl.setVisibility(View.GONE); controlBar.addView(viewControl);
-        keyboard = new Button(this); keyboard.setText(R.string.keyboard); styleButton(keyboard, false); keyboard.setVisibility(View.GONE); controlBar.addView(keyboard); viewPage.addView(controlBar);
+        keyboard = new Button(this); keyboard.setText(R.string.keyboard); styleButton(keyboard, false); keyboard.setVisibility(View.GONE); controlBar.addView(keyboard); viewPage.addView(controlBar, gapTop(4));
         viewControl.setOnCheckedChangeListener((v, enabled) -> { if (!updatingControl && handle != 0) { try { NativeBridge.requestControl(handle, enabled); } catch (Exception error) { android.util.Log.w("Trinix", "Could not change control permission", error); disconnect(ErrorText.plain(error)); } } });
         keyboard.setOnClickListener(v -> {
             EditText text = new EditText(this); text.setHint(R.string.type_hint); text.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(1024)});
@@ -137,7 +157,7 @@ public final class MainActivity extends Activity implements SurfaceHolder.Callba
                 try { if (handle != 0 && text.length() > 0) NativeBridge.typeText(handle, text.getText().toString()); } catch (Exception error) { android.util.Log.w("Trinix", "Could not send typing", error); disconnect(ErrorText.plain(error)); }
             }).setNeutralButton(R.string.enter, (dialog, which) -> { try { if (handle != 0) {NativeBridge.key(handle,40,true);NativeBridge.key(handle,40,false);} } catch (Exception error) { android.util.Log.w("Trinix", "Could not send a key", error); disconnect(ErrorText.plain(error));} }).setNegativeButton(R.string.cancel, null).show();
         });
-        status = text(getString(R.string.not_connected), 14, Color.rgb(61, 91, 77)); status.setPadding(0, dp(8), 0, dp(8)); viewPage.addView(status);
+        status = text(getString(R.string.not_connected), 14, Color.rgb(83, 96, 88)); status.setPadding(0, dp(8), 0, dp(4)); viewPage.addView(status);
         video = new SurfaceView(this); video.setId(VIDEO_ID); video.getHolder().addCallback(this); video.setBackgroundColor(Color.BLACK);
         video.setFocusableInTouchMode(true);
         video.setOnFocusChangeListener((v, focused) -> {if (!focused && handle != 0 && remoteControlActive) {try {NativeBridge.releaseInput(handle);} catch (Exception error) {android.util.Log.w("Trinix", "Could not release control", error); disconnect(ErrorText.plain(error));}}});
@@ -163,14 +183,17 @@ public final class MainActivity extends Activity implements SurfaceHolder.Callba
         video.addOnLayoutChangeListener((v,l,t,r,b,ol,ot,or,ob) -> fitVideo());
         android.widget.FrameLayout viewport = new android.widget.FrameLayout(this);
         viewport.addView(video, new android.widget.FrameLayout.LayoutParams(-1, -1, Gravity.CENTER));
-        emptyPreview = text(getString(R.string.empty_preview), 15, Color.rgb(83, 102, 91)); emptyPreview.setGravity(Gravity.CENTER); emptyPreview.setBackground(rounded(Color.rgb(235, 241, 237)));
-        viewport.addView(emptyPreview, new android.widget.FrameLayout.LayoutParams(-1, -1)); viewPage.addView(viewport, new LinearLayout.LayoutParams(-1, 0, 1));
-        TextView heading = text(getString(R.string.share_instruction), 24, Color.rgb(30, 39, 35)); heading.setPadding(0, dp(24), 0, dp(12)); sharePage.addView(heading);
-        wifiBanner = text(getString(R.string.connect_wifi_first), 14, Color.rgb(61, 91, 77)); wifiBanner.setPadding(0, dp(8), 0, dp(8)); sharePage.addView(wifiBanner);
-        details = new Button(this); details.setText(R.string.details); styleButton(details, false); sharePage.addView(details);
-        ownAddress = text("", 16, Color.rgb(30, 39, 35)); ownAddress.setTextIsSelectable(true); ownAddress.setVisibility(View.GONE); sharePage.addView(ownAddress);
-        details.setOnClickListener(v -> { detailsExpanded = !detailsExpanded; ownAddress.setVisibility(detailsExpanded ? View.VISIBLE : View.GONE); details.setText(detailsExpanded ? R.string.hide_details : R.string.details); });
-        Button copyLink = new Button(this); copyLink.setText(R.string.link_copy); styleButton(copyLink, false); sharePage.addView(copyLink);
+        emptyPreview = text(getString(R.string.empty_preview), 16, Color.rgb(83, 96, 88)); emptyPreview.setGravity(Gravity.CENTER); emptyPreview.setBackground(rounded(Color.rgb(235, 241, 237))); emptyPreview.setPadding(dp(24), dp(24), dp(24), dp(24));
+        viewport.addView(emptyPreview, new android.widget.FrameLayout.LayoutParams(-1, -1));
+        LinearLayout.LayoutParams viewportParams = new LinearLayout.LayoutParams(-1, 0, 1);
+        viewportParams.topMargin = dp(8);
+        viewPage.addView(viewport, viewportParams);
+        TextView heading = text(getString(R.string.share_instruction), 22, Color.rgb(30, 39, 35)); heading.setTypeface(android.graphics.Typeface.create("sans-serif-medium", android.graphics.Typeface.NORMAL)); heading.setPadding(0, dp(12), 0, dp(4)); sharePage.addView(heading);
+        wifiBanner = text(getString(R.string.connect_wifi_first), 14, Color.rgb(83, 96, 88)); wifiBanner.setPadding(0, dp(4), 0, dp(4)); sharePage.addView(wifiBanner);
+        shareControl = new CheckBox(this); shareControl.setId(SHARE_CONTROL_ID); shareControl.setText(R.string.allow_phone_control); shareControl.setTextColor(Color.rgb(30, 39, 35)); sharePage.addView(shareControl, gapTop(8));
+        share = new Button(this); share.setId(SHARE_ID); share.setText(R.string.share_this_screen); styleButton(share, true); sharePage.addView(share, gapTop(10));
+        shareStatus = text(ScreenShareService.summary.isEmpty() ? getString(R.string.not_sharing) : ScreenShareService.summary, 14, Color.rgb(83, 96, 88)); shareStatus.setPadding(0, dp(8), 0, dp(4)); sharePage.addView(shareStatus);
+        Button copyLink = new Button(this); copyLink.setText(R.string.link_copy); styleButton(copyLink, false); sharePage.addView(copyLink, gapTop(16));
         copyLink.setOnClickListener(v -> {
             String link = ScreenShareService.invitation;
             if (link.isEmpty()) { shareStatus.setText(R.string.start_sharing_first); return; }
@@ -179,7 +202,9 @@ public final class MainActivity extends Activity implements SurfaceHolder.Callba
             getSystemService(android.content.ClipboardManager.class).setPrimaryClip(clip);
             shareStatus.setText(R.string.link_copied);
         });
-        shareControl = new CheckBox(this); shareControl.setId(SHARE_CONTROL_ID); shareControl.setText(R.string.allow_phone_control); sharePage.addView(shareControl);
+        details = new Button(this); details.setText(R.string.details); styleButton(details, false); sharePage.addView(details, gapTop(8));
+        ownAddress = text("", 16, Color.rgb(30, 39, 35)); ownAddress.setTextIsSelectable(true); ownAddress.setVisibility(View.GONE); sharePage.addView(ownAddress, gapTop(4));
+        details.setOnClickListener(v -> { detailsExpanded = !detailsExpanded; ownAddress.setVisibility(detailsExpanded ? View.VISIBLE : View.GONE); details.setText(detailsExpanded ? R.string.hide_details : R.string.details); });
         shareControl.setOnCheckedChangeListener((v, enabled) -> {
             if (!enabled && ScreenShareService.sharing) ScreenShareService.revokeControl();
             if (enabled && !RemoteControlService.available()) {
@@ -187,10 +212,8 @@ public final class MainActivity extends Activity implements SurfaceHolder.Callba
                 new android.app.AlertDialog.Builder(this).setTitle(R.string.phone_control_title).setMessage(R.string.phone_control_message).setPositiveButton(R.string.open_settings, (dialog, which) -> startActivity(new android.content.Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS))).setNegativeButton(R.string.cancel, null).show();
             }
         });
-        Button keyboardSettings = new Button(this); keyboardSettings.setText(R.string.typing_options); styleButton(keyboardSettings, false); sharePage.addView(keyboardSettings);
+        Button keyboardSettings = new Button(this); keyboardSettings.setText(R.string.typing_options); styleButton(keyboardSettings, false); sharePage.addView(keyboardSettings, gapTop(8));
         keyboardSettings.setOnClickListener(v -> new android.app.AlertDialog.Builder(this).setTitle(R.string.typing_options).setMessage(R.string.typing_options_message).setPositiveButton(R.string.enable, (dialog, which) -> startActivity(new android.content.Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS))).setNeutralButton(R.string.select, (dialog, which) -> getSystemService(android.view.inputmethod.InputMethodManager.class).showInputMethodPicker()).setNegativeButton(R.string.cancel, null).show());
-        share = new Button(this); share.setId(SHARE_ID); share.setText(R.string.share_this_screen); styleButton(share, true); sharePage.addView(share);
-        shareStatus = text(ScreenShareService.summary.isEmpty() ? getString(R.string.not_sharing) : ScreenShareService.summary, 14, Color.rgb(61, 91, 77)); sharePage.addView(shareStatus);
         share.setOnClickListener(v -> {
             if (ScreenShareService.sharing) { stopService(new android.content.Intent(this, ScreenShareService.class)); return; }
             if (android.os.Build.VERSION.SDK_INT >= 33) {
@@ -211,7 +234,16 @@ public final class MainActivity extends Activity implements SurfaceHolder.Callba
     }
     @Override protected void onNewIntent(android.content.Intent intent) { super.onNewIntent(intent); setIntent(intent); recreate(); }
     private android.graphics.drawable.GradientDrawable rounded(int color) {
-        android.graphics.drawable.GradientDrawable shape = new android.graphics.drawable.GradientDrawable(); shape.setColor(color); shape.setCornerRadius(dp(8)); return shape;
+        android.graphics.drawable.GradientDrawable shape = new android.graphics.drawable.GradientDrawable(); shape.setColor(color); shape.setCornerRadius(dp(10)); return shape;
+    }
+    private android.graphics.drawable.GradientDrawable fieldBackground() {
+        android.graphics.drawable.GradientDrawable shape = rounded(Color.WHITE); shape.setStroke(Math.max(1, dp(1)), Color.rgb(220, 229, 223)); return shape;
+    }
+    private LinearLayout.LayoutParams gapTop(int top) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2); params.topMargin = dp(top); return params;
+    }
+    private LinearLayout.LayoutParams gapTop(int top, int height) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, height); params.topMargin = dp(top); return params;
     }
     private void styleButton(Button button, boolean primary) {
         button.setAllCaps(false); button.setTextSize(16); button.setElevation(0); button.setStateListAnimator(null); button.setMinHeight(dp(48)); button.setPadding(dp(14), dp(10), dp(14), dp(10));
@@ -222,7 +254,10 @@ public final class MainActivity extends Activity implements SurfaceHolder.Callba
         button.setBackground(background); button.setTextColor(primary ? Color.WHITE : Color.rgb(30, 65, 43));
     }
     private void styleTab(Button button, boolean selected) {
-        styleButton(button, false); button.setBackground(rounded(selected ? Color.rgb(217, 236, 223) : Color.rgb(247, 248, 247)));
+        button.setAllCaps(false); button.setTextSize(15); button.setElevation(0); button.setStateListAnimator(null);
+        button.setMinHeight(0); button.setMinimumHeight(0); button.setPadding(dp(8), 0, dp(8), 0);
+        button.setBackground(rounded(selected ? Color.WHITE : Color.TRANSPARENT));
+        button.setTextColor(selected ? Color.rgb(38, 115, 77) : Color.rgb(83, 96, 88));
         button.setTypeface(android.graphics.Typeface.create(selected ? "sans-serif-medium" : "sans-serif", android.graphics.Typeface.NORMAL));
         button.setSelected(selected);
     }
