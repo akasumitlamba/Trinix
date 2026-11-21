@@ -23,12 +23,12 @@ Choose **Allow access**. If you chose **Cancel** by mistake, open your
 computer's firewall settings and allow Trinix on private networks. Then
 press **Stop sharing** and press **Share this screen** again.
 
-<a id="new-link"></a> <!-- jargon-ok -->
-## 3. Make a new link <!-- jargon-ok -->
+<a id="new-link"></a>
+## 3. Make a new link
 
-A link works only while sharing is on. Press **Stop <!-- jargon-ok -->
-sharing**, then **Share this screen** to make a new link, copy it and paste it <!-- jargon-ok -->
-into the other device again. Paste the whole link, with no spaces before or <!-- jargon-ok -->
+A link works only while sharing is on. Press **Stop
+sharing**, then **Share this screen** to make a new link, copy it and paste it
+into the other device again. Paste the whole link, with no spaces before or
 after it.
 
 <a id="restart"></a>
@@ -68,7 +68,6 @@ stay close to the router and pause big downloads.
   If you got the file from the project, choose **More info**, then **Run anyway**.
 
 <a id="linux-sharing"></a>
-<!-- technical-below -->
 ## Linux: sharing does not start
 
 On many Linux desktops (those that use Wayland), the system must give

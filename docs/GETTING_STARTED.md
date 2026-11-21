@@ -25,15 +25,15 @@ This is an early test version. If something does not work, see
    page, press the large button with the same name. If Windows asks to let
    Trinix use your network, keep **Private networks** ticked and choose
    **Allow access**.
-4. Press **Copy connection link**. Send it to the other device in a chat or <!-- jargon-ok -->
-   email. A link is a long private text that one device makes when it starts <!-- jargon-ok -->
+4. Press **Copy connection link**. Send it to the other device in a chat or
+   email. A link is a long private text that one device makes when it starts
    sharing. For a phone, you can also scan the square picture on this screen, but not
    every phone camera opens it.
 5. On the other device, open Trinix. Stay on **View a screen**, paste
-   the link, and press **Connect**. The shared screen appears. <!-- jargon-ok -->
+   the link, and press **Connect**. The shared screen appears.
 
 To see another device's screen on this PC instead, do step 5 on this PC, using
-a link from the other device. <!-- jargon-ok -->
+a link from the other device.
 
 ## Linux (Debian and Ubuntu)
 
@@ -48,10 +48,10 @@ a link from the other device. <!-- jargon-ok -->
    email. For a phone, you can also scan the square picture on this screen, but not
    every phone camera opens it.
 5. On the other device, open Trinix. Stay on **View a screen**, paste
-   the link, and press **Connect**. The shared screen appears. <!-- jargon-ok -->
+   the link, and press **Connect**. The shared screen appears.
 
 To see another device's screen on this computer instead, do step 5 on this
-computer, using a link from the other device. <!-- jargon-ok --> To stop at any
+computer, using a link from the other device. To stop at any
 time, press **Stop sharing**.
 
 ## Android
@@ -64,8 +64,8 @@ time, press **Stop sharing**.
    unknown, choose **Install anyway**.
 2. Open **Trinix**. To see a computer's screen, first start sharing on
    that computer (steps 3 and 4 in the Windows or Linux list) and send the
-   link to your phone. <!-- jargon-ok -->
-3. On the phone, stay on **View**. Paste the link, or tap the link if it opens <!-- jargon-ok -->
+   link to your phone.
+3. On the phone, stay on **View**. Paste the link, or tap the link if it opens
    in Trinix.
 4. Press **Connect**. The computer's screen appears on your phone.
 5. To stop, press **Disconnect**.
@@ -73,7 +73,7 @@ time, press **Stop sharing**.
 To share your phone's screen instead, open the **Share** tab and press
 **Share this screen**. When Android asks for permission, choose the button that
 starts sharing (usually **Start now**). Then press **Copy connection link**,
-send the link to the computer, and paste it there under **View a screen**. <!-- jargon-ok -->
+send the link to the computer, and paste it there under **View a screen**.
 
 Remote control, which lets the other device tap and type on your phone, is off
 unless you turn on **Allow remote control**. Android then asks you to switch on
@@ -95,7 +95,6 @@ a setting in Accessibility.
 - The Android app file is only test-signed, so Android may warn about it. To
   install a newer version, you may need to uninstall the old version first.
 
-<!-- technical-below -->
 ## More detail for technical readers
 
 Note: the viewer has a setting named "older alpha (unencrypted)". It turns

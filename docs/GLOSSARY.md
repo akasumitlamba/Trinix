@@ -7,17 +7,17 @@ Short, plain explanations of words you may meet in Trinix.
 **See another screen** (shown in the app as **View a screen** today): look at
 another device's screen on this one.
 
-**Connection link**: a long private text, a bit like a web address, that one <!-- jargon-ok -->
+**Connection link**: a long private text, a bit like a web address, that one
 device makes when it starts sharing. Paste it on the other device to connect.
 It works only while sharing is on. Keep it private: anyone who has it can see
 your screen.
 
-**QR code**: a square picture that holds the same link. Point a phone camera at <!-- jargon-ok -->
+**QR code**: a square picture that holds the same link. Point a phone camera at
 it instead of typing or pasting. Not every phone camera can open it.
 
 **Connect / Disconnect**: start or stop seeing a shared screen.
 
-**Stop sharing**: end sharing and make the old link stop working. <!-- jargon-ok -->
+**Stop sharing**: end sharing and make the old link stop working.
 
 **Same Wi-Fi (same network)**: both devices are connected to the same router, so
 they can reach each other. A cable to that router should also work.
@@ -53,7 +53,6 @@ should work without extra setup.
 
 **Reconnect**: the app tries again by itself after a short network drop.
 
-<!-- technical-below -->
 ## Technical terms
 
 These appear in project documentation.
