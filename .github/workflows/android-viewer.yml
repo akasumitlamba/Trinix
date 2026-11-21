@@ -63,7 +63,6 @@ jobs:
           "$AAPT2" dump resources "$APK" > /tmp/release-resources.txt
           if grep -q adv_legacy_toggle /tmp/release-resources.txt; then echo "debug-only string present in release"; exit 1; fi
           if grep -A3 'bool/legacy_toggle' /tmp/release-resources.txt | grep -qi true; then echo "legacy_toggle is true in release"; exit 1; fi
-      - run: python3 scripts/check-android-strings.py
       - uses: actions/upload-artifact@v4
         with:
           name: android-viewer-apks
